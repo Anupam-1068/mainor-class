@@ -24,8 +24,4 @@ public class gameController {
         return gameService.guessableNumber(gameId,number);
     }
 
-
-
-
-
 }

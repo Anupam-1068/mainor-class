@@ -29,10 +29,9 @@ public class gameService {
         GameResponse gameResponse = new GameResponse();
 
         Integer correctAnswer = games.get(gameId);
-        gameResponse.incrementAttempts(); // Increment attempts for every guess
 
         if (userGuess.equals(correctAnswer)) {
-            gameResponse.setText("Correct, it took you " + gameResponse.getAttempts() + " times");
+            gameResponse.setText("Correct ");
         } else if (userGuess < correctAnswer) {
             gameResponse.setText("Nr is bigger");
         } else {
