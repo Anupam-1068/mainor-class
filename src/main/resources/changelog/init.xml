@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog logicalFilePath="db.changelog-1.0.xml" xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="anupam.krishna" id="create-guessing-game">
+        <sql splitStatements="false">
+            CREATE TABLE guessing_game
+            (
+                id             SERIAL PRIMARY KEY,
+                name           varchar(255) NOT NULL,
+                correct_answer integer      NOT NULL
+            );
+
+            INSERT INTO guessing_game (name, correct_answer)
+            VALUES ('testGame', 10);
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog>

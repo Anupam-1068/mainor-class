@@ -1,11 +1,16 @@
 package ee.mainor.guessNumber.service;
 
+import ee.mainor.guessNumber.GameRepository.GuessingGameRepository;
+import ee.mainor.guessNumber.dto.GameDto;
 import ee.mainor.guessNumber.dto.GameRequest;
 import ee.mainor.guessNumber.dto.GameResponse;
+import ee.mainor.guessNumber.model.GuessingGame;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -13,17 +18,18 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class gameService {
 
+    private final GuessingGameRepository guessingGameRepository;
+
     private Map<Integer, Integer> games = new HashMap<>();
-    private Random random = new Random();
-    int min = 1;
-    int max = 100;
 
-    public Integer createGame(GameRequest gameRequest) {
-        Integer id = random.nextInt(max - min + 1) + min; //random id between 1 and 100
-        games.put(id, gameRequest.getCorrectAnswer());
-        return id;
+    @Transactional
+    public Long createGame(GameRequest gameRequest) {
+        GuessingGame guessingGame = new GuessingGame();
+        guessingGame.setName("testName");
+        guessingGame.setCorrectAnswer(gameRequest.getCorrectAnswer());
+
+        return guessingGameRepository.save(guessingGame).getId();
     }
-
     public GameResponse guessableNumber(Integer gameId, Integer userGuess) {
 
         GameResponse gameResponse = new GameResponse();
@@ -38,6 +44,13 @@ public class gameService {
             gameResponse.setText("Nr is smaller");
         }
         return gameResponse;
+    }
+
+    public List<GameDto> getAll() {
+        return guessingGameRepository.findAll()
+                .stream()
+                .map(game -> new GameDto().setId(game.getId())
+                        .setName(game.getName())).toList();
     }
 
 }
